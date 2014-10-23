@@ -1,7 +1,198 @@
+<!doctype html>
+<!--
+    Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+    This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE
+    The complete set of authors may be found at http://polymer.github.io/AUTHORS
+    The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS
+    Code distributed by Google as part of the polymer project is also
+    subject to an additional IP rights grant found at http://polymer.github.io/PATENTS
+  -->
 <html>
-<head>
-</head>
-<body>
-<script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
-</body>
+  <head>
+    <title>Fabel Bish</title>
+
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1, user-scalable=yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="description" content="Hilarious English-to-English machine translations.">
+
+    <script src="components/platform/platform.js"></script>
+    
+    <link rel="shortcut icon" href="http://www.polymer-project.org/images/logos/p-logo-16.png">
+    <script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>
+    <link rel="import" href="components/core-icons/core-icons.html">
+    <link rel="import" href="components/sampler-scaffold/sampler-scaffold.html">
+    <link rel="import" href="components/font-roboto/roboto.html">
+    <link rel="import" href="components/core-item/core-item.html">
+    <link rel="import" href="components/core-menu/core-submenu.html">
+    <link rel="import" href="components/paper-icon-button/paper-icon-button.html">
+    <link rel="import" href="components/paper-fab/paper-fab.html">
+
+    <link rel="import" href="components/paper-elements/paper-elements.html">
+    <link rel="import" href="components/core-elements/core-elements.html">
+
+    <style>
+
+      body {
+      font-family: RobotoDraft, sans-serif;
+      color: #333;
+      margin: 0;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      -webkit-touch-callout: none;
+      }
+      paper-checkbox.languageChoice {
+      width: 100%;
+      margin-left: 20px;
+      margin-top: 20px;
+      }
+    </style>
+
+  </head>
+
+  <body unresolved>
+
+    <sampler-scaffold label="Fabel Bish" data="{{data}}" fit>
+
+      <paper-icon-button class="menuButton" icon="menu" ></paper-icon-button>
+      <paper-fab class="sourceButton bottom" icon="launch"></paper-fab>
+      
+    </sampler-scaffold>
+    <script>
+var languageList = [{'name': 'Hindi', 'code': 'hi'},
+            {'name': 'Tamil', 'code': 'ta'},
+            {'name': 'Telugu', 'code': 'te'},
+            {'name': 'Gujarati', 'code': 'gu'},
+            {'name': 'Marathi', 'code': 'mr'},
+            {'name': 'Bengali', 'code': 'bn'},
+            {'name': 'German', 'code': 'de'},
+            {'name': 'French', 'code': 'fr'},
+            {'name': 'Spanish', 'code': 'es'},
+            {'name': 'Italian', 'code': 'it'},
+            {'name': 'Russian', 'code': 'ru'},
+            {'name': 'Chinese Simplified', 'code': 'zh-CN'},
+            {'name': 'Afrikaans', 'code': 'af'},
+            {'name': 'Albanian', 'code': 'sq'},
+            {'name': 'Arabic', 'code': 'ar'},
+            {'name': 'Azerbaijani', 'code': 'az'},
+            {'name': 'Basque', 'code': 'eu'},
+            {'name': 'Belarusian', 'code': 'be'},
+            {'name': 'Bulgarian', 'code': 'bg'},
+            {'name': 'Catalan', 'code': 'ca'},
+            {'name': 'Chinese Traditional', 'code': 'zh-TW'},
+            {'name': 'Croatian', 'code': 'hr'},
+            {'name': 'Czech', 'code': 'cs'},
+            {'name': 'Danish', 'code': 'da'},
+            {'name': 'Dutch', 'code': 'nl'},
+            {'name': 'Esperanto', 'code': 'eo'},
+            {'name': 'Estonian', 'code': 'et'},
+            {'name': 'Filipino', 'code': 'tl'},
+            {'name': 'Finnish', 'code': 'fi'},
+            {'name': 'Galician', 'code': 'gl'},
+            {'name': 'Georgian', 'code': 'ka'},
+            {'name': 'Greek', 'code': 'el'},
+            {'name': 'Haitian Creole', 'code': 'ht'},
+            {'name': 'Hebrew', 'code': 'iw'},
+            {'name': 'Hungarian', 'code': 'hu'},
+            {'name': 'Icelandic', 'code': 'is'},
+            {'name': 'Indonesian', 'code': 'id'},
+            {'name': 'Irish', 'code': 'ga'},
+            {'name': 'Japanese', 'code': 'ja'},
+            {'name': 'Kannada', 'code': 'kn'},
+            {'name': 'Korean', 'code': 'ko'},
+            {'name': 'Latin', 'code': 'la'},
+            {'name': 'Latvian', 'code': 'lv'},
+            {'name': 'Lithuanian', 'code': 'lt'},
+            {'name': 'Macedonian', 'code': 'mk'},
+            {'name': 'Malay', 'code': 'ms'},
+            {'name': 'Maltese', 'code': 'mt'},
+            {'name': 'Norwegian', 'code': 'no'},
+            {'name': 'Persian', 'code': 'fa'},
+            {'name': 'Polish', 'code': 'pl'},
+            {'name': 'Portuguese', 'code': 'pt'},
+            {'name': 'Romanian', 'code': 'ro'},
+            {'name': 'Serbian', 'code': 'sr'},
+            {'name': 'Slovak', 'code': 'sk'},
+            {'name': 'Slovenian', 'code': 'sl'},
+            {'name': 'Swahili', 'code': 'sw'},
+            {'name': 'Swedish', 'code': 'sv'},
+            {'name': 'Thai', 'code': 'th'},
+            {'name': 'Turkish', 'code': 'tr'},
+            {'name': 'Ukrainian', 'code': 'uk'},
+            {'name': 'Urdu', 'code': 'ur'},
+            {'name': 'Vietnamese', 'code': 'vi'},
+            {'name': 'Welsh', 'code': 'cy'},
+            {'name': 'Yiddish', 'code': 'yi'}];
+
+var selectedLanguages = {'mr':true, 'hi':true, 'fr':true, 'es':true, 'ru':true};
+var translations = [];
+document.querySelector('sampler-scaffold').data = {
+  'languageList': languageList,
+  'selectedLanguages': selectedLanguages,
+  'translations': translations
+};
+
+gapi.client.setApiKey('AIzaSyAl9U3IOV4IYV_ye1DUlfczyjF5zA-7N2g');
+gapi.client.load('translate', 'v2');
+
+function handleTranslation(response) {
+  translations.push(getTranslatedText(response));
+}
+
+function arrayTranslate(languages, EnglishText) {
+  // Duplicate the array and do a random shuffle.
+  languages = shuffle(languages.concat(languages));
+
+  var partial = beginTranslate('en', languages[0], EnglishText);
+  for (var i = 1; i < languages.length; ++i) {
+    if (languages[i-1] == languages[i]) continue;
+    partial = partial.then(translate(languages[i-1], languages[i]));
+  }
+  partial = partial.then(translate(languages[languages.length - 1], 'en'));
+  return partial.then(handleTranslation);
+}
+
+function beginTranslate(src, target, txt) {
+  return gapi.client.language.translations.list({
+    'source': src,
+    'target': target,
+    'q': txt
+  });
+}
+
+function getTranslatedText(response) {
+  return response.result.data.translations[0].translatedText;
+}
+
+function translate(src, target) {
+  return function(response) {
+    handleTranslation(response);
+    return beginTranslate(src, target, getTranslatedText(response));
+  };
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex ;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+    </script>
+  </body>
+
 </html>

@@ -1,0 +1,136 @@
+<!--
+Copyright (c) 2014 The Polymer Project Authors. All rights reserved.
+This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
+The complete set of authors may be found at http://polymer.github.io/AUTHORS.txt
+The complete set of contributors may be found at http://polymer.github.io/CONTRIBUTORS.txt
+Code distributed by Google as part of the polymer project is also
+subject to an additional IP rights grant found at http://polymer.github.io/PATENTS.txt
+-->
+
+<link rel="import" href="../core-toolbar/core-toolbar.html">
+<link rel="import" href="../core-drawer-panel/core-drawer-panel.html">
+<link rel="import" href="../core-header-panel/core-header-panel.html">
+<link rel="import" href="../core-item/core-item.html">
+<link rel="import" href="../core-menu/core-menu.html">
+<link rel="import" href="../core-menu/core-submenu.html">
+<link rel="import" href="../core-icon-button/core-icon-button.html">
+<link rel="import" href="../paper-elements/paper-elements.html">
+
+<polymer-element name="sampler-scaffold" attributes="label responsiveWidth">
+<template>
+
+  <link rel="stylesheet" href="sampler-scaffold.css">
+
+  <core-drawer-panel id="drawerPanel" narrow="{{narrow}}" drawerWidth="220px" responsiveWidth="{{responsiveWidth}}">
+
+    <core-header-panel id="mainHeaderPanel" main mode="{{narrow ? 'waterfall' : 'cover'}}" shadow>
+
+      <core-toolbar class="{{ {'medium-tall' : !narrow} | tokenList }}">
+        <content select=".menuButton" on-tap="{{togglePanel}}">
+          <core-icon-button class="menuButton fallback" icon="menu"></core-icon-button>
+        </content>
+        <div hidden?="{{!narrow}}">{{label}}</div>
+        <content select=".sourceButton" on-tap="{{viewSourceAction}}">
+          <core-icon-button class="sourceButton fallback" icon="launch"></core-icon-button>
+        </content>
+      </core-toolbar>
+      
+      <div id="card" on-transitionend="{{cardTransitionDone}}">
+
+        <div class="element-label" hidden?="{{narrow}}">{{label}}</div>
+        <div class="paper-input-container">
+          <paper-input id="input" autofocus floatingLabel label="Type here to translate. For example, 'Do or do not, there is no try!'"></paper-input>
+        </div>
+
+        <div class='translations'>
+        <template repeat="{{translation in data.translations}}">
+          <div class="translation">{{translation}}</div>
+        </template>
+        </div>
+        
+      </div>
+      
+    </core-header-panel>
+
+    <core-header-panel drawer>
+
+      <core-toolbar class="{{ {'medium-tall' : !narrow} | tokenList }}">
+        <div class="bottom main-label fit">Languages</div>
+      </core-toolbar>
+      
+        <template repeat="{{item in data.languageList}}">
+          <paper-checkbox checked="{{data.selectedLanguages[item.code]}}" class="languageChoice" label="{{item.name}}">
+          </paper-checkbox>
+        </template>
+
+    </core-header-panel>
+
+  </core-drawer-panel>
+
+</template>
+<script>
+
+  Polymer('sampler-scaffold', {
+    
+    /**
+     * When the browser window size is smaller than the `responsiveWidth`, 
+     * `sampler-scaffold` changes to a narrow layout. In narrow layout, 
+     * the drawer will be stacked on top of the main panel.
+     *
+     * @attribute responsiveWidth
+     * @type string
+     */
+    responsiveWidth: '860px',
+    
+    ready: function() {
+      window.addEventListener('change', this.textEntered.bind(this));
+    },
+    
+    textEntered: function(e) {
+      var languages = [];
+      this.data.translations = [];
+      for (key in this.data.selectedLanguages) {
+        if (this.data.selectedLanguages[key]) languages.push(key);
+      }
+      arrayTranslate(languages, this.$.input.value);
+    },
+
+    domReady: function() {
+    },
+    
+    animateCard: function() {
+      this.$.card.classList.remove('move-up');
+      this.$.card.style.display = 'none';
+      this.async(function() {
+        this.$.card.style.display = 'block';
+        this.moveCard(this.$.mainHeaderPanel.offsetHeight);
+        this.async(function() {
+          this.$.card.classList.add('move-up');
+          this.moveCard(null);
+        }, null, 300);
+      });
+    },
+    
+    moveCard: function(y) {
+      var s = this.$.card.style;
+      s.webkitTransform = s.transform = 
+          y ? 'translate3d(0, ' + y + 'px,0)' : '';
+    },
+    
+    cardTransitionDone: function() {
+      if (this.$.card.classList.contains('move-up')) {
+        this.$.card.classList.remove('move-up');
+      }
+    },
+    
+    togglePanel: function() {
+      this.$.drawerPanel.togglePanel();
+    },
+    
+    viewSourceAction: function() {
+    }
+    
+  });
+
+</script>
+</polymer-element>
