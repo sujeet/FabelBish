@@ -88,7 +88,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     
     textEntered: function(e) {
       var languages = [];
-      this.data.translations = [];
+      while (this.data.translations.length > 0) this.data.translations.pop();
       for (key in this.data.selectedLanguages) {
         if (this.data.selectedLanguages[key]) languages.push(key);
       }
