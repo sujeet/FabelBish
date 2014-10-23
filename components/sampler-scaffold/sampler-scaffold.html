@@ -84,8 +84,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     
     ready: function() {
       window.addEventListener('change', this.textEntered.bind(this));
+      window.addEventListener('keydown', this.keyDown.bind(this));
     },
     
+    keyDown: function(e) {
+      if (e.keyCode == 13) this.textEntered(e);
+    },
+
     textEntered: function(e) {
       var languages = [];
       this.data.translations = [];
