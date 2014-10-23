@@ -135,8 +135,10 @@ document.querySelector('sampler-scaffold').data = {
   'translations': translations
 };
 
-gapi.client.setApiKey('AIzaSyAl9U3IOV4IYV_ye1DUlfczyjF5zA-7N2g');
-gapi.client.load('translate', 'v2');
+function handleClientLoad() {
+  gapi.client.setApiKey('AIzaSyAl9U3IOV4IYV_ye1DUlfczyjF5zA-7N2g');
+  gapi.client.load('translate', 'v2');
+}
 
 function handleTranslation(response) {
   translations.push(getTranslatedText(response));
