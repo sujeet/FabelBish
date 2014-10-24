@@ -97,7 +97,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       for (key in this.data.selectedLanguages) {
         if (this.data.selectedLanguages[key]) languages.push(key);
       }
-      arrayTranslate(languages, this.$.input.value);
+      arrayTranslate(languages, this.$.input.inputValue);
     },
 
     domReady: function() {
